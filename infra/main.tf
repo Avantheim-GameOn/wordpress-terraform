@@ -80,7 +80,13 @@ module "rds" {
 module "monitoring" {
   source         = "./modules/monitoring"
   instance_id    = module.ec2_blue.instance_id
-  project_name   = "goncalo-wp"
+  project_name   = "goncalo-wp-blue"
+}
+
+module "monitoring_green" {
+  source         = "./modules/monitoring"
+  instance_id    = module.ec2_green.instance_id
+  project_name   = "goncalo-wp-green"
 }
 
 resource "aws_security_group" "alb_sg" {
@@ -117,5 +123,10 @@ module "alb" {
   alb_sg_id          = aws_security_group.alb_sg.id
   blue_instance_id  = module.ec2_blue.instance_id
   green_instance_id = module.ec2_green.instance_id
+}
 
+module "git_user" {
+  source = "./modules/IAM"
+  name = "git_user"
+  policy_arns                   = ["arn:aws:iam::aws:policy/AmazonEC2FullAccess","arn:aws:iam::aws:policy/AmazonRDSFullAccess","arn:aws:iam::aws:policy/AmazonS3FullAccess","arn:aws:iam::aws:policy/AmazonVPCFullAccess","arn:aws:iam::aws:policy/CloudWatchFullAccess","arn:aws:iam::aws:policy/IAMFullAccess"]
 }
