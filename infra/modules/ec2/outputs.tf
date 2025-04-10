@@ -1,6 +1,14 @@
-output "public_ip" {
-  value = aws_instance.wordpress.public_ip
+output "instance_id" {
+  description = "ID da instância EC2"
+  value       = aws_instance.wordpress.id
 }
-output "iam_instance_profile" {
-  value = aws_iam_instance_profile.ec2_profile.name
+
+output "public_ip" {
+  description = "Endereço IP público da instância EC2"
+  value       = aws_instance.wordpress.public_ip
+}
+
+output "security_group_id" {
+  description = "ID do Security Group criado para a instância EC2"
+  value       = aws_security_group.wp_sg.id
 }
