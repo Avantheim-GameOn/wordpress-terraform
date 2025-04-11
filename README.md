@@ -1,40 +1,82 @@
-# WordPress AWS Deployment with Terraform
+# 🚀 WordPress AWS Infrastructure with Terraform
 
-Este projeto implementa o deploy completo de uma aplicação **WordPress** em **AWS**, utilizando **Terraform** como ferramenta de Infrastructure as Code (IaC) e **GitHub Actions** para CI/CD.
-
----
-
-## 🚀 Objetivo
-
-Desenvolver uma infraestrutura automatizada e escalável na AWS, com base num desafio técnico que exige:
-
-- Deploy de WordPress na AWS
-- Utilização de boas práticas com Terraform
-- Pipeline CI/CD automatizado
-- Monitorização básica da stack
-- Bónus: Blue-Green deployment e testes automatizados
+Este projeto configura uma stack WordPress altamente disponível na AWS, usando infraestrutura como código com Terraform, práticas CI/CD, observabilidade e estratégia de blue-green deployment.
 
 ---
 
-## 🧰 Stack utilizada
+## 📁 Estrutura do Projeto
 
-- **Terraform** (Infraestrutura como Código)
-- **AWS** (EC2, RDS, VPC, ALB, CloudWatch, IAM)
-- **GitHub Actions** (Deploy automático)
-- **Terratest** (Testes de infraestrutura em Golang)
+```
+.
+├── infra/
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   ├── modules/
+│   │   ├── vpc/
+│   │   ├── ec2/ (blue & green)
+│   │   ├── rds/
+│   │   ├── alb/
+│   │   ├── monitoring/
+│   │   └── security_groups/
+└── test/
+    └── terratest
+```
 
 ---
 
-## 📦 Estrutura dos módulos
+## 🧱 Tecnologias Utilizadas
+
+- **Terraform** (infraestrutura como código)
+- **AWS** (EC2, RDS, ALB, VPC, CloudWatch)
+- **GitHub Actions** (CI/CD)
+- **Bash** (instalação WordPress)
+- **GoLang** (Terratest)
+
+---
+
+## 🚀 Como Executar
 
 ```bash
-infra/
-├── main.tf
-├── variables.tf
-├── outputs.tf
-├── modules/
-│   ├── ec2/
-│   ├── rds/
-│   ├── vpc/
-│   ├── alb/
-│   └── monitoring/
+# Clonar o projeto
+git clone https://github.com/GoncaloSecurityOps/wordpress-terraform.git
+cd wordpress-terraform/infra
+
+# Inicializar Terraform
+terraform init
+
+# Validar e aplicar a infraestrutura
+terraform validate
+terraform apply
+```
+
+> 💡 É necessário definir as GitHub Secrets:  
+> `AWS_ACCESS_KEY_ID` e `AWS_SECRET_ACCESS_KEY`  
+> (em GitHub > Settings > Secrets)
+
+---
+
+## 📚 Funcionalidades
+
+- ✅ Infraestrutura modular com Terraform
+- ✅ CI/CD automático via GitHub Actions
+- ✅ WordPress em EC2 com RDS (MySQL)
+- ✅ Balanceamento de carga com ALB (blue/green)
+- ✅ CloudWatch com alarmes, métricas e dashboards
+- ✅ Testes com Terratest
+
+---
+
+## 🔍 Observações
+
+- Otimizado para **AWS Free Tier** (com desligamento de recursos manuais)
+- O estado Terraform local pode ser adaptado para backend remoto (S3 + DynamoDB)
+- O ALB foi temporariamente desativado para evitar custos extras
+- O projeto está estruturado para ser facilmente escalável e reutilizável
+
+---
+
+## 🔗 Autor
+
+**Gonçalo Monteiro**  
+[GitHub: @GoncaloSecurityOps](https://github.com/GoncaloSecurityOps)
