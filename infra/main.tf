@@ -16,6 +16,7 @@ module "ec2_blue" {
   instance_type  = "t2.micro"
   ami_id         = "ami-0c1c30571d2dae5c9"  # Ubuntu Server 22.04 LTS (eu-west-1)
   key_name       = "goncalo-key"
+  security_group_id  = module.security_groups.security_group_id
 }
 
 module "ec2_green" {
@@ -27,6 +28,7 @@ module "ec2_green" {
   instance_type  = "t2.micro"
   ami_id         = "ami-0c1c30571d2dae5c9"  # Ubuntu Server 22.04 LTS (eu-west-1)
   key_name       = "goncalo-key"
+  security_group_id  = module.security_groups.security_group_id
 }
 
 resource "aws_db_subnet_group" "wordpress_subnet_group" {
@@ -48,7 +50,9 @@ resource "aws_security_group" "db_sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = [module.ec2_blue.security_group_id]
+    security_groups = [module.security_groups.security_group_id]
+
+
   }
 
   egress {
@@ -129,4 +133,10 @@ module "git_user" {
   source = "./modules/IAM"
   name = "git_user"
   policy_arns                   = ["arn:aws:iam::aws:policy/AmazonEC2FullAccess","arn:aws:iam::aws:policy/AmazonRDSFullAccess","arn:aws:iam::aws:policy/AmazonS3FullAccess","arn:aws:iam::aws:policy/AmazonVPCFullAccess","arn:aws:iam::aws:policy/CloudWatchFullAccess","arn:aws:iam::aws:policy/IAMFullAccess"]
+}
+
+module "security_groups" {
+  source       = "./modules/security_groups"
+  project_name = var.project_name
+  vpc_id       = module.vpc.vpc_id
 }

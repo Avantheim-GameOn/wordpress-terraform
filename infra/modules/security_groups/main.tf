@@ -1,10 +1,10 @@
-resource "aws_security_group" "wp_sg" {
-  name        = "${var.project_name}-sg-${var.instance_name}"
-  description = "Allow HTTP and SSH"
+resource "aws_security_group" "web_sg" {
+  name        = "${var.project_name}-sg-v2"
+  description = "Security group for web access"
   vpc_id      = var.vpc_id
 
   ingress {
-    description = "HTTP"
+    description = "Allow HTTP"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -12,7 +12,7 @@ resource "aws_security_group" "wp_sg" {
   }
 
   ingress {
-    description = "SSH"
+    description = "Allow SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -20,6 +20,7 @@ resource "aws_security_group" "wp_sg" {
   }
 
   egress {
+    description = "Allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

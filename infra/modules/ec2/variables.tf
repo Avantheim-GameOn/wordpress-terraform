@@ -32,3 +32,8 @@ variable "key_name" {
   description = "Nome da chave SSH associada à instância"
   type        = string
 }
+
+variable "security_group_id" {
+  description = "ID do Security Group a ser associado à instância"
+  type        = string
+}
